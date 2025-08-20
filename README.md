@@ -123,7 +123,7 @@ drwxr-xr-x@ 11 vinyl  staff      352 Aug 20 21:44 ..
 -rw-r--r--@  1 vinyl  staff  1133451 Jul  9 16:29 juan.-1080p.mp4
 ```
 
-1. Enjoy your happy nerd time!
+7. Enjoy your happy nerd time!
 
 ## Help
 
