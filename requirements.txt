@@ -1,0 +1,3 @@
+yt-dlp==2025.6.30 ; python_version >= "3.13" \
+    --hash=sha256:541becc29ed7b7b3a08751c0a66da4b7f8ee95cb81066221c78e83598bc3d1f3 \
+    --hash=sha256:6d0ae855c0a55bfcc28dffba804ec8525b9b955d34a41191a1561a4cec03d8bd
