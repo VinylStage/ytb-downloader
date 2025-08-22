@@ -14,6 +14,7 @@ An easy and nerd-approved way to download high-resolution YouTube videos from yo
 ### Dependencies
 
 - macOS
+- Ubuntu
 - Python 3.13
 
 ### Installation
@@ -23,6 +24,21 @@ Clone this repository to your computer:
 ```bash
 git clone git@github.com:VinylStage/ytb-downloader.git
 cd ytb-downloader
+```
+
+Install this package in your computer:
+
+> macOS
+
+```bash
+brew install ffmpeg
+```
+
+> Ubuntu
+
+```bash
+sudo apt update
+sudo apt install ffmpeg -y
 ```
 
 ### Running the Program
