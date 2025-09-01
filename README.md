@@ -1,153 +1,94 @@
 
 # YouTube Video Downloader
 
-A nerdy YouTube Video Downloader, built just for me (but you can use it too).
+CLI YouTube downloader with multi-URL, playlist, and audio conversion.
 
 
-## Description
+## Features
 
-An easy and nerd-approved way to download high-resolution YouTube videos from your terminal.
+- Video downloads
+  - Multiple URLs at once
+  - Choose same quality for all or pick per-video
+  - Playlist downloads at best quality
+- Audio-only downloads
+  - Multiple URLs or entire playlist
+  - Always saved as MP3 (best quality) under `music/`
+- Audio conversion
+  - Convert an existing directory of media files to MP3
+  - Recursive option and customizable bitrate (default 320k)
+- Reliability
+  - Desktop User-Agent for playlists
+  - If 403 occurs, prompts once for cookies.txt and retries
 
 
-## Getting Started
+## Requirements
 
-### Dependencies
-
-- macOS
-- Ubuntu
 - Python 3.13
+- ffmpeg (for merging video and extracting audio)
+  - macOS: `brew install ffmpeg`
+  - Ubuntu: `sudo apt update && sudo apt install ffmpeg -y`
 
-### Installation
 
-Clone this repository to your computer:
+## Installation
+
+Clone the repository and install dependencies via Poetry:
 
 ```bash
 git clone git@github.com:VinylStage/ytb-downloader.git
 cd ytb-downloader
-```
-
-Install this package in your computer:
-
-> macOS
-
-```bash
-brew install ffmpeg
-```
-
-> Ubuntu
-
-```bash
-sudo apt update
-sudo apt install ffmpeg -y
-```
-
-### Running the Program
-
-1. Set up your Python virtual environment (using Poetry):
-
-```bash
-poetry shell
-```
-
-2. Install dependencies:
-
-```bash
 poetry install
 ```
 
-3. Run the script:
+
+## Usage
+
+Run the app:
 
 ```bash
-python3 downloader.py
+poetry run python main.py
+# or
+poetry run python downloader.py
 ```
 
-4. Paste the YouTube link you want to download when prompted.
+Start menu options:
 
-```bash
-# example
-Enter the YouTube video URL: https://www.youtube.com/shorts/MJP92jpeyyY
-2025-08-20 21:41:59,265 - INFO - User provided URL: https://www.youtube.com/shorts/MJP92jpeyyY
-2025-08-20 21:41:59,265 - DEBUG - Fetching video info for URL: https://www.youtube.com/shorts/MJP92jpeyyY
-WARNING: [youtube] MJP92jpeyyY: Some web client https formats have been skipped as they are missing a url. YouTube is forcing SABR streaming for this client. See  https://github.com/yt-dlp/yt-dlp/issues/12482  for more details
-```
+1\) Video download
+<br>
+2\) Audio-only download
+<br>
+3\) Audio conversion (directory → MP3)
+<br>
+q\) Quit
 
-*You can safely ignore the warning above!*
+Video mode:
 
-5. Select the video quality you want to download and wait for the magic to happen.
+- Multiple URLs: paste one per line; finish with empty line or `done`.
+- Same quality for all: pick a target resolution (e.g., 1080p). Each video gets the best format at or below that height.
+- Per-video choice: see available MP4 heights and pick per item.
+- Playlists: paste a playlist URL to download all videos at best quality. Saved to `videos/<playlist_title>/`.
 
-```bash
-# example
-2025-08-20 21:42:07,822 - DEBUG - Successfully extracted video info for 'juan.'
-2025-08-20 21:42:07,822 - DEBUG - Found 19 available formats.
-2025-08-20 21:42:07,822 - DEBUG - Found 6 unique displayable video streams.
-2025-08-20 21:42:07,822 - INFO -
-Available resolutions:
-2025-08-20 21:42:07,822 - INFO - 1. 1080p (video only)
-2025-08-20 21:42:07,823 - INFO - 2. 720p (video only)
-2025-08-20 21:42:07,823 - INFO - 3. 480p (video only)
-2025-08-20 21:42:07,823 - INFO - 4. 360p (video only)
-2025-08-20 21:42:07,823 - INFO - 5. 240p (video only)
-2025-08-20 21:42:07,823 - INFO - 6. 144p (video only)
+Audio-only mode:
 
-Enter the number of the resolution you want to download: 1
-2025-08-20 21:42:11,595 - INFO - User selected resolution: 1080p (Format ID: 270)
-2025-08-20 21:42:11,595 - DEBUG - Download path set to: ./videos
-2025-08-20 21:42:11,595 - DEBUG - Using yt-dlp download options: {'format': '270+bestaudio/best', 'outtmpl': './videos/%(title)s-%(height)sp.%(ext)s', 'postprocessors': [{'key': 'FFmpegVideoConvertor', 'preferedformat': 'mp4'}], 'progress_hooks': [<function download_video.<locals>.<lambda> at 0x102d6fec0>]}
-2025-08-20 21:42:11,595 - INFO - Downloading 'juan.' in 1080p...
-[youtube] Extracting URL: https://www.youtube.com/shorts/MJP92jpeyyY
-[youtube] MJP92jpeyyY: Downloading webpage
-[youtube] MJP92jpeyyY: Downloading tv client config
-[youtube] MJP92jpeyyY: Downloading player 093288cd-main
-[youtube] MJP92jpeyyY: Downloading tv player API JSON
-[youtube] MJP92jpeyyY: Downloading ios player API JSON
-WARNING: [youtube] MJP92jpeyyY: Some web client https formats have been skipped as they are missing a url. YouTube is forcing SABR streaming for this client. See  https://github.com/yt-dlp/yt-dlp/issues/12482  for more details
-[youtube] MJP92jpeyyY: Downloading m3u8 information
-[info] Testing format 270
-[info] Testing format 234
-[info] MJP92jpeyyY: Downloading 1 format(s): 270+234
-[hlsnative] Downloading m3u8 manifest
-[hlsnative] Total fragments: 3
-[download] Destination: ./videos/juan.-1080p.f270.mp4
-[download] 100% of  911.73KiB in 00:00:00 at 4.61MiB/s2025-08-20 21:42:16,916 - DEBUG - yt-dlp hook: finished
+- Multiple URLs: downloads best audio and extracts to MP3. Saved to `music/`.
+- Playlist: downloads all items to MP3. Saved to `music/<playlist_title>/`.
 
-[hlsnative] Downloading m3u8 manifest
-[hlsnative] Total fragments: 3
-[download] Destination: ./videos/juan.-1080p.f234.mp4
-[download] 100% of  251.20KiB in 00:00:00 at 1.59MiB/s2025-08-20 21:42:17,338 - DEBUG - yt-dlp hook: finished
+Audio conversion mode:
 
-[Merger] Merging formats into "./videos/juan.-1080p.mp4"
-Deleting original file ./videos/juan.-1080p.f270.mp4 (pass -k to keep)
-Deleting original file ./videos/juan.-1080p.f234.mp4 (pass -k to keep)
-[VideoConvertor] Not converting media file "./videos/juan.-1080p.mp4"; already is in target format mp4
-2025-08-20 21:42:17,610 - INFO - Download completed successfully!
-2025-08-20 21:42:17,610 - INFO - Video saved to folder: ./videos
-```
+- Select a directory, choose recursive or not, and bitrate (e.g., `320k`).
+- Converts supported media files in-place to `.mp3` (existing `.mp3` are skipped).
 
-6. Check your downloaded videos:
 
-```bash
-ls -al videos
-```
+## Cookies (optional)
 
-- example
+Some content (age/region-restricted, unlisted) may require login. If a 403 error occurs during download, the app will prompt for a `cookies.txt` path and retry once.
 
-```bash
-(ytb-downloader-py3.13) ☁  ytb-downloader [main] ⚡  ls -al videos
-total 2216
-drwxr-xr-x@  3 vinyl  staff       96 Aug 20 21:42 .
-drwxr-xr-x@ 11 vinyl  staff      352 Aug 20 21:44 ..
--rw-r--r--@  1 vinyl  staff  1133451 Jul  9 16:29 juan.-1080p.mp4
-```
+- Export cookies with the “Get cookies.txt” browser extension and supply the file path when prompted.
 
-7. Enjoy your happy nerd time!
 
-## Help
+## Output
 
-Any advice for common problems or issues:
-
-```
-No command to run if the program contains helper info.
-```
+- Videos: `videos/` (playlists under `videos/<playlist_title>/`)
+- Audios: `music/` (playlists under `music/<playlist_title>/`)
 
 
 ## Author
@@ -155,8 +96,9 @@ No command to run if the program contains helper info.
 [Vinyl Stage](https://link.vinylims.com)
 
 
-
 ## Version History
 
-* 0.1.0
-    * Initial Release
+- 0.2.0
+  - Modularized codebase; added multi-URL video/audio, playlist support, and directory→MP3 conversion
+- 0.1.0
+  - Initial release
